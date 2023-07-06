@@ -59,5 +59,3 @@ namespace OnlineGameStore
         }
     }
 }
-//alaric is a virgin lolololol
-//alaric need to gret shot lol
