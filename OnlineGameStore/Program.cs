@@ -5,8 +5,11 @@ using Microsoft.Extensions.Logging;
 using OnlineGameStore.Models;
 using System;
 
+
 namespace OnlineGameStore
 {
+    //n*ggas in paris
+
     public class Program
     {
         public static void Main(string[] args)
