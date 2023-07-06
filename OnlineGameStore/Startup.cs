@@ -59,6 +59,7 @@ namespace OnlineGameStore
         }
     }
 }
+//i hope gay people have a nice life
 //alaric is a virgin lolololol
 //alaric need to gret shot lol
 //alaric circumcision day
