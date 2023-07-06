@@ -8,7 +8,7 @@ using System;
 
 namespace OnlineGameStore
 {
-    // 
+    
 
     public class Program
     {
