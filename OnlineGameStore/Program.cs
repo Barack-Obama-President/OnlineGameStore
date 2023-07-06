@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using OnlineGameStore.Models;
 using System;
 
-//testc jeff was hre
 
 namespace OnlineGameStore
 {
