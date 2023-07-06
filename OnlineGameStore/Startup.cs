@@ -13,6 +13,7 @@ using OnlineGameStore.Data;
 
 namespace OnlineGameStore
 {
+    //and i wonder
     public class Startup
     {
         public Startup(IConfiguration configuration)
