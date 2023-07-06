@@ -8,7 +8,7 @@ using System;
 
 namespace OnlineGameStore
 {
-    //fuck alaric mumdie
+    //n*ggas in paris
 
     public class Program
     {
