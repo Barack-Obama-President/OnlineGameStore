@@ -8,7 +8,7 @@ using System;
 
 namespace OnlineGameStore
 {
-    //alaric sun jun heng is a rapist
+    
     public class Program
     {
         public static void Main(string[] args)
