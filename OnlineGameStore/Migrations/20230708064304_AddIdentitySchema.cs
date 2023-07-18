@@ -50,6 +50,22 @@ namespace OnlineGameStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AuditRecords",
+                columns: table => new
+                {
+                    Audit_ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AuditActionType = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: true),
+                    DateTimeStamp = table.Column<DateTime>(nullable: false),
+                    KeyGameFieldID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditRecords", x => x.Audit_ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Game",
                 columns: table => new
                 {
@@ -227,6 +243,9 @@ namespace OnlineGameStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "AuditRecords");
 
             migrationBuilder.DropTable(
                 name: "Game");
