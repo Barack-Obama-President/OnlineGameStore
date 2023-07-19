@@ -64,21 +64,35 @@ namespace OnlineGameStore
                 // User settings
                 options.User.RequireUniqueEmail = true;
             });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // options.Cookie.Name = "YourCookieName";
+                // options.Cookie.Domain=
+                // options.LoginPath = "/Account/Login";
+                // options.LogoutPath = "/Account/Logout";
+                // options.AccessDeniedPath = "/Account/AccessDenied";
+
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromSeconds(500);
+                options.SlidingExpiration = true;
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            app.UseStatusCodePages("text/html", "<h1>Status code page</h1> <h2>Status Code: {0}</h2>");
+            app.UseExceptionHandler("/Error");
+                
+            //}
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
