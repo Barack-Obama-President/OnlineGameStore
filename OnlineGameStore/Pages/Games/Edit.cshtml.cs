@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineGameStore.Data;
 using OnlineGameStore.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineGameStore.Pages.Games
 {
-    public class EditModel : PageModel
+    [Authorize(Roles = "Admin, Users")]
+	public class EditModel : PageModel
     {
         private readonly OnlineGameStore.Data.OnlineGameStoreContext _context;
 

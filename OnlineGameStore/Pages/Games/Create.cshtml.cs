@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineGameStore.Data;
 using OnlineGameStore.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineGameStore.Pages.Games
 {
-    public class CreateModel : PageModel
+	[Authorize(Roles = "Admin")]
+	public class CreateModel : PageModel
     {
         private readonly OnlineGameStore.Data.OnlineGameStoreContext _context;
 

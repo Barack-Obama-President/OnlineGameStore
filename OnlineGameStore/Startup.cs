@@ -34,7 +34,7 @@ namespace OnlineGameStore
             services.AddDbContext<OnlineGameStoreContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("OnlineGameStoreContext")));
 
-            services.AddIdentity<ApplicationUser, Microsoft.AspNetCore.Identity.IdentityRole>()
+            services.AddIdentity<ApplicationUser,ApplicationRole>()
                  .AddDefaultUI()
                  .AddEntityFrameworkStores<OnlineGameStoreContext>()
                  .AddDefaultTokenProviders();

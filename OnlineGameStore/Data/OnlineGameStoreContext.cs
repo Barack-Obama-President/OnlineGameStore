@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace OnlineGameStore.Data
 {
-    public class OnlineGameStoreContext : IdentityDbContext<ApplicationUser>
+    public class OnlineGameStoreContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public OnlineGameStoreContext (DbContextOptions<OnlineGameStoreContext> options)
             : base(options)
