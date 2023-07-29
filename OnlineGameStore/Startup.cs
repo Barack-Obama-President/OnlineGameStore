@@ -65,6 +65,7 @@ namespace OnlineGameStore
                 options.User.RequireUniqueEmail = true;
             });
 
+
             services.ConfigureApplicationCookie(options =>
             {
                 // options.Cookie.Name = "YourCookieName";

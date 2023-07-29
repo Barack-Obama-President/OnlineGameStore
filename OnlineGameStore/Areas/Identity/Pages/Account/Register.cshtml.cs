@@ -83,6 +83,8 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
 					UserName = Input.Email,
 					Email = Input.Email,
 					FullName = Input.FullName
+
+                    
 				};
 				var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
@@ -102,6 +104,7 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
+                        await _userManager.AddToRoleAsync(user, "User");
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
