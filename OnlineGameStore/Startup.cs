@@ -79,6 +79,13 @@ namespace OnlineGameStore
                 options.SlidingExpiration = true;
             });
 
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "ShoppingCartSession";
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,8 +107,10 @@ namespace OnlineGameStore
 
             app.UseRouting();
             app.UseAuthentication();
-         
             app.UseAuthorization();
+
+            // UseSession middleware should come before UseEndpoints
+            app.UseSession(); // Add this line
 
             app.UseEndpoints(endpoints =>
             {
