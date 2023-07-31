@@ -10,7 +10,7 @@ using OnlineGameStore.Data;
 namespace OnlineGameStore.Migrations
 {
     [DbContext(typeof(OnlineGameStoreContext))]
-    [Migration("20230719071705_AddIdentityRole")]
+    [Migration("20230731183934_AddIdentityRole")]
     partial class AddIdentityRole
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
