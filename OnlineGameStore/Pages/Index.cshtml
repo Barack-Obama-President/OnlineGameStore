@@ -5,6 +5,44 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Welcome to HustlersGaming</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <img src="https://static.vecteezy.com/system/resources/previews/002/144/780/original/gaming-banner-for-games-with-glitch-effect-neon-light-on-text-illustration-design-free-vector.jpg" alt="Gaming" class="img-fluid mx-auto d-block mt-3" style="max-width: 700px;">
+
+
 </div>
+
+<button onclick="toggleHiddenParagraph()" id="learn-more-btn" class="btn btn-primary">Learn More</button>
+<div class="mt-5" id="hidden-paragraph" style="display: none;">
+    <h2 class="text-center">Want Fun? Go Game! Enjoy Yourself! Enjoy Gaming!</h2>
+    <p>
+        Welcome to HustlersGaming! We are dedicated to give hustlers (gamers) a fun time. Unleash your gaming adventure now. 
+        From action-packed epics to mind-bending challenges, find your perfect game here. 
+        Start exploring once logged in and level up your gaming journey today!
+    </p>
+
+    <p>
+        Gaming is an art form that has the power to evoke emotions, stimulate creativity and bring smiles to our faces. 
+        It is not just a pastime but an avenue for happiness and personal growth. So, whether you're a casual player 
+        seeking moments of joy or a dedicated gamer on epic quests, 
+        embrace the magic of gaming and let it brighten your day with the gift of happiness
+    </p>
+
+    <img src="https://www.ubp.com/files/live/sites/ubp/files/image/banner_newsroom/200124_Vignette_Web_Detail.jpg" alt="Gaming" class="img-fluid mx-auto d-block mt-3" style="max-width: 900px;">
+</div>
+
+<!-- Include JavaScript for the toggle functionality -->
+<script>
+    function toggleHiddenParagraph() {
+        var paragraph = document.getElementById("hidden-paragraph");
+        var button = document.getElementById("learn-more-btn");
+
+        if (paragraph.style.display === "none") {
+            paragraph.style.display = "block";
+            button.innerHTML = "Show Less";
+        } else {
+            paragraph.style.display = "none";
+            button.innerHTML = "Learn More";
+        }
+    }
+</script>

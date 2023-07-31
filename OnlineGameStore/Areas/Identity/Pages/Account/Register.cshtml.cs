@@ -62,7 +62,7 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-			[Display(Name = "Full Name")]
+			[Display(Name = "Username")]
 			public string FullName { get; set; }
 		}
 
