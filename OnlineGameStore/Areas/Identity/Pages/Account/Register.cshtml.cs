@@ -95,7 +95,7 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
             [Display(Name = "Date of birth")]
             [DataType(DataType.Date)]
             [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-            [MinimumAge(12)]
+            [MinimumAge(13)]
             public DateTime BirthDate { get; set; }
 		}
 

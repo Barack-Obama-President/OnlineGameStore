@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,6 +7,7 @@ namespace OnlineGameStore.Models
 {
     public class Game
     {
+        public IFormFile GameImage { get; set; }
         public int ID { get; set; }
         public string Title { get; set; }
 
