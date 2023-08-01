@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineGameStore.Data;
 using OnlineGameStore.Models;
 using Microsoft.AspNetCore.Authorization;
-
+//testing commit
 namespace OnlineGameStore.Pages.Games
 {
 	[Authorize(Roles = "Admin")]

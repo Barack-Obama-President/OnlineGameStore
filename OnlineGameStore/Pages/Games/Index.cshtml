@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Games</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -51,7 +51,7 @@
                 @Html.DisplayFor(modelItem => item.Genre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                $@Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
@@ -84,7 +84,7 @@
                     <td>@item.Value.Title</td> <!-- Access the Title property from the value of the dictionary entry -->
                     <td>@item.Value.Price</td> <!-- Access the Price property from the value of the dictionary entry -->
                     <td>@item.Value.Quantity</td> <!-- Access the Quantity property from the value of the dictionary entry -->
-                    <td>@(item.Value.Price * item.Value.Quantity)</td> <!-- Calculate the total price for the item -->
+                    <td>$@(item.Value.Price * item.Value.Quantity)</td> <!-- Calculate the total price for the item -->
                     <td>
                         <form method="post" asp-page-handler="RemoveFromCart" asp-route-id="@item.Key">
                             <button type="submit">Remove</button>
