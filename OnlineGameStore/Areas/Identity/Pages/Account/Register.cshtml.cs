@@ -20,13 +20,21 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
+		//tryingsomestuffout//
+
+		private readonly OnlineGameStore.Data.OnlineGameStoreContext _context;
+		private readonly RoleManager<ApplicationRole> _roleManager;
+		//tryingsomestuffout//
+		private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<ApplicationUser> userManager,
+			OnlineGameStore.Data.OnlineGameStoreContext context,
+
+		 RoleManager<ApplicationRole> roleManager,
+			UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
@@ -35,7 +43,8 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-        }
+			_roleManager = roleManager;
+		}
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -120,11 +129,17 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
                     
 				};
 				var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
+               
+
+				if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+					// await _userManager.AddToRoleAsync(user, "User");
+					IdentityResult roleResult = await _userManager.AddToRoleAsync(user, "Users");
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+					//return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+
+					var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
@@ -137,15 +152,28 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        await _userManager.AddToRoleAsync(user, "User");
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        //await _userManager.AddToRoleAsync(user, "User");
+						 await _userManager.AddToRoleAsync(user, "Users");
+						if (roleResult.Succeeded)
+						{
+							TempData["message"] = "Role added to this user successfully";
+							return RedirectToPage("Manage");
+						}
+						//ApplicationRole AppRole = await _roleManager.FindByNameAsync("User");
+						//IdentityResult roleResult = await _userManager.AddToRoleAsync(user, AppRole.Name);
+						_logger.LogInformation("User added to the 'User' role.");
+
+
+						return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
                     {
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
@@ -153,6 +181,8 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+            return RedirectToPage("Login");
+
             return Page();
         }
     }
