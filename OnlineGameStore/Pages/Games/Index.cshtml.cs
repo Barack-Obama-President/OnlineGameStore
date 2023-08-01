@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace OnlineGameStore.Pages.Games
 {
-	[Authorize(Roles = "Admin, Users")]
+	//[Authorize(Roles = "Admin, Users")]
 	public class IndexModel : PageModel
     {
         private readonly OnlineGameStore.Data.OnlineGameStoreContext _context;
@@ -46,6 +46,33 @@ namespace OnlineGameStore.Pages.Games
             }
 
             return totalPrice;
+        }
+        public async Task<IActionResult> OnPostRemoveFromCart(int id)
+        {
+            var game = await _context.Game.FindAsync(id);
+
+            // Retrieve the existing shopping cart from the session
+            var shoppingCartString = HttpContext.Session.GetString("ShoppingCart");
+
+            if (!string.IsNullOrEmpty(shoppingCartString))
+                ShoppingCart = JsonConvert.
+                    DeserializeObject<Dictionary<int, ShoppingCartItem>>(shoppingCartString);
+
+
+            // If the game is already in the cart, decrease the quantity
+            if (ShoppingCart[game.ID].Quantity > 1)
+            {
+                ShoppingCart[game.ID].Quantity--;
+            }
+            else if(ShoppingCart[game.ID].Quantity == 1)
+            {
+                ShoppingCart.Remove(game.ID);
+            }
+
+            HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(ShoppingCart));
+
+            // Redirect back to the game page
+            return RedirectToPage("./Index");
         }
         public async Task<IActionResult> OnPostAddToCart(int id)
         {
