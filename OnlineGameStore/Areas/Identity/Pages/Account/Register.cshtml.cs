@@ -53,6 +53,29 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
+        public class MinimumAgeAttribute : ValidationAttribute
+        {
+            private readonly int _minimumAge;
+
+            public MinimumAgeAttribute(int minimumAge)
+            {
+                _minimumAge = minimumAge;
+            }
+
+            protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+            {
+                DateTime dateOfBirth = (DateTime)value;
+                DateTime minimumDateOfBirth = DateTime.Today.AddYears(-_minimumAge);
+
+                if (dateOfBirth > minimumDateOfBirth)
+                {
+                    return new ValidationResult($"You must be at least {_minimumAge} years old.");
+                }
+
+                return ValidationResult.Success;
+            }
+        }
+
         public class InputModel
         {
             [Required]
@@ -61,18 +84,28 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
+            [Required]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            
+            [Required] 
+            [Display(Name = "Account name")]
+            [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Invalid account name. Only letters, numbers, and underscores are allowed.")]
+            public string FullName { get; set; }
 
-			[Display(Name = "Username")]
-			public string FullName { get; set; }
+            [Required]
+            [Display(Name = "Date of birth")]
+            [DataType(DataType.Date)]
+            [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+            [MinimumAge(12)]
+            public DateTime BirthDate { get; set; }
 		}
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -91,8 +124,8 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
 				{
 					UserName = Input.Email,
 					Email = Input.Email,
-					FullName = Input.FullName
-
+					FullName = Input.FullName,
+                    BirthDate = Input.BirthDate,
                     
 				};
 				var result = await _userManager.CreateAsync(user, Input.Password);
