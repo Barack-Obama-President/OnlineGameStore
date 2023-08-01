@@ -69,24 +69,6 @@ namespace OnlineGameStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    CustomerID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
-                    Age = table.Column<int>(nullable: false),
-                    PhoneNum = table.Column<string>(nullable: true),
-                    Comment = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Game",
                 columns: table => new
                 {
@@ -267,9 +249,6 @@ namespace OnlineGameStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "AuditRecords");
-
-            migrationBuilder.DropTable(
-                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Game");

@@ -10,8 +10,8 @@ using OnlineGameStore.Data;
 namespace OnlineGameStore.Migrations
 {
     [DbContext(typeof(OnlineGameStoreContext))]
-    [Migration("20230731184910_AddCustomer")]
-    partial class AddCustomer
+    [Migration("20230801012100_AddIdentityRole")]
+    partial class AddIdentityRole
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -257,36 +257,6 @@ namespace OnlineGameStore.Migrations
                     b.HasKey("Audit_ID");
 
                     b.ToTable("AuditRecords");
-                });
-
-            modelBuilder.Entity("OnlineGameStore.Models.Customer", b =>
-                {
-                    b.Property<int>("CustomerID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNum")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CustomerID");
-
-                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("OnlineGameStore.Models.Game", b =>
