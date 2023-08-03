@@ -39,7 +39,18 @@ namespace OnlineGameStore
                  .AddEntityFrameworkStores<OnlineGameStoreContext>()
                  .AddDefaultTokenProviders();
 
-            services.AddMvc()
+			services.AddAuthentication()
+		    .AddGoogle(options =>
+		    {
+			    IConfigurationSection googleAuthNSection =
+				    Configuration.GetSection("Authentication:Google");
+
+			    options.ClientId = googleAuthNSection["ClientId"];
+			    options.ClientSecret = googleAuthNSection["ClientSecret"];
+		    });
+
+
+			services.AddMvc()
              .AddRazorPagesOptions(options =>
              {
                  // options.Conventions.AllowAnonymousToFolder("/Games");
