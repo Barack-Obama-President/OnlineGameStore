@@ -41,9 +41,9 @@
  <div class="col-md-4">
  <form method="post">
  @Html.Label("Select User : ")
- @Html.DropDownListFor(m => m.selectedusername, Model.UsersSelectList, "Select User", new { @class = "form-control" })
+ @Html.DropDownListFor(m => m.selectedusername, Model.UsersSelectList, "SelectUser", new { @class = "form-control" })
  @Html.Label("Assign Role : ")
- @Html.DropDownListFor(m => m.selectedrolename, Model.RolesSelectList, "Select Role", new { @class = "form-control" })
+ @Html.DropDownListFor(m => m.selectedrolename, Model.RolesSelectList, "SelectRole", new { @class = "form-control" })
  <br />
  <input type="submit" value="Assign" />
  </form>
@@ -53,16 +53,17 @@
 <h3>[Delete A User from a Role]</h3>
 <hr />
 <div class="row">
- <div class="col-md-4">
- <form method="post">
- @Html.Label("Select User : ")
- @Html.DropDownListFor(m => m.delusername, Model.UsersSelectList, "Select User",
-new { @class = "form-control" })
- @Html.Label("Select Role : ")
- @Html.DropDownListFor(m => m.delrolename, Model.RolesSelectList, "Select Role",
-new { @class = "form-control" })
- <br />
- <input type="submit" value="Delete this user from Role" asp-pagehandler="DeleteUserRole" />
- </form>
- </div>
+    <div class="col-md-4">
+        <form method="post">
+            @Html.Label("Select User : ")
+            @Html.DropDownListFor(m => m.delusername, Model.UsersSelectList, "Select User", new { @class = "form-control" })
+            @Html.HiddenFor(m => m.UsersSelectList) <!-- Include a hidden field to preserve UsersSelectList -->
+            @Html.Label("Select Role : ")
+            @Html.DropDownListFor(m => m.delrolename, Model.RolesSelectList, "Select Role", new { @class = "form-control" })
+            @Html.HiddenFor(m => m.RolesSelectList) <!-- Include a hidden field to preserve RolesSelectList -->
+
+            <br />
+            <input type="submit" value="Delete this user from Role" asp-pagehandler="DeleteUserRole" />
+        </form>
+    </div>
 </div>
