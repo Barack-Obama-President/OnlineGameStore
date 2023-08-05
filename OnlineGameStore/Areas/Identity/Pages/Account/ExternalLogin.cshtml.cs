@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using OnlineGameStore.Models;
+using Microsoft.AspNetCore.Authentication;
+
 
 namespace OnlineGameStore.Areas.Identity.Pages.Account
 {
@@ -24,8 +26,12 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly OnlineGameStore.Data.OnlineGameStoreContext _context;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
         public ExternalLoginModel(
+            OnlineGameStore.Data.OnlineGameStoreContext context,
+         RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             ILogger<ExternalLoginModel> logger,
@@ -35,6 +41,30 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
             _userManager = userManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
+        }
+
+        public class MinimumAgeAttribute : ValidationAttribute
+        {
+            private readonly int _minimumAge;
+
+            public MinimumAgeAttribute(int minimumAge)
+            {
+                _minimumAge = minimumAge;
+            }
+
+            protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+            {
+                DateTime dateOfBirth = (DateTime)value;
+                DateTime minimumDateOfBirth = DateTime.Today.AddYears(-_minimumAge);
+
+                if (dateOfBirth > minimumDateOfBirth)
+                {
+                    return new ValidationResult($"You must be at least {_minimumAge} years old.");
+                }
+
+                return ValidationResult.Success;
+            }
         }
 
         [BindProperty]
@@ -57,6 +87,13 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
             [Display(Name = "Account name")]
             [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Invalid account name. Only letters, numbers, and underscores are allowed.")]
             public string FullName { get; set; }
+
+            [Required]
+            [Display(Name = "Date of birth")]
+            [DataType(DataType.Date)]
+            [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+            [MinimumAge(13)]
+            public DateTime BirthDate { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -108,7 +145,8 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
                     Input = new InputModel
                     {
                         Email = info.Principal.FindFirstValue(ClaimTypes.Email),
-                        FullName = info.Principal.FindFirstValue(ClaimTypes.Name)
+                        FullName = info.Principal.FindFirstValue(ClaimTypes.Name),
+                        BirthDate = DateTime.Today
                     };
                 }
                 return Page();
@@ -128,7 +166,7 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FullName = Input.FullName };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FullName = Input.FullName, BirthDate = Input.BirthDate };
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -137,7 +175,7 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-
+                        IdentityResult roleResult = await _userManager.AddToRoleAsync(user, "Users");
                         var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

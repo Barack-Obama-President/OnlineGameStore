@@ -1,9 +1,10 @@
-﻿@page "{id:int?}"
+﻿@page "{id:int?}"    
 @model OnlineGameStore.Pages.Games.IndexModel
 
 @{
     ViewData["Title"] = "Index";
 }
+
 
 <h1>Games</h1>
 
@@ -96,6 +97,32 @@
     </table>
 
     <p>Total price: $@Model.TotalPrice</p>
+
+    <form method="post" asp-page-handler="ClearCart">
+        <button type="submit">Clear Cart</button>
+    </form>
+    <br />
+    <!-- Checkout button -->
+    <button type="button" id="checkoutBtn">Check Out</button>
+
+    <div id="checkoutModal" style="display: none;">
+        <img src="https://artgrain.com.sg/wp-content/uploads/2021/01/Artgrain-TP-Paynow-QR-Code.png" alt="PayNow" width="300" height="300">
+        <p>Please use PayNow to scan the QR code and make payment.</p>
+        <p>Total price is $@Model.TotalPrice</p>
+        <form method="post" asp-page-handler="Done">
+            <button type="submit">Done</button>
+        </form>
+    </div>
+
+    <!-- JavaScript to show/hide the checkout modal -->
+    <script>
+        document.getElementById("checkoutBtn").addEventListener("click", function() {
+            document.getElementById("checkoutModal").style.display = "block";
+        });
+    </script>
+
+        
+
 }
 else
 {

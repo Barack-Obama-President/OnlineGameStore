@@ -142,5 +142,30 @@ namespace OnlineGameStore.Pages.Games
             Game = await games.ToListAsync();
             TotalPrice = CalculateTotalPrice();
         }
+        public IActionResult OnPostClearCart()
+        {
+            ShoppingCart.Clear();
+
+            // Update the shopping cart in the session by setting an empty dictionary
+            HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(new Dictionary<int, ShoppingCartItem>()));
+
+            // Redirect back to the game page
+            return RedirectToPage("./Index");
+        }
+
+        
+        public async Task<IActionResult> OnPostDone()
+        {
+
+            // Clear the cart after the checkout is completed
+            ShoppingCart.Clear();
+
+            // Update the shopping cart in the session by setting an empty dictionary
+            HttpContext.Session.SetString("ShoppingCart", JsonConvert.SerializeObject(new Dictionary<int, ShoppingCartItem>()));
+
+            // Redirect back to the game page with a parameter indicating checkout is completed
+            return RedirectToPage("./Index", new { checkoutCompleted = true });
+
+        }
     }
 }
