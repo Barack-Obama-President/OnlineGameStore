@@ -1,4 +1,6 @@
+using System.Data;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,7 +9,8 @@ using OnlineGameStore.Models;
 
 namespace OnlineGameStore.Pages.Roles
 {
-	public class EditModel : PageModel
+    [Authorize(Roles = "Admin")]
+    public class EditModel : PageModel
 	{
 		private readonly RoleManager<ApplicationRole> _roleManager;
 		public EditModel(RoleManager<ApplicationRole> roleManager)

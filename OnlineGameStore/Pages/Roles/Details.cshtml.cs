@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,7 +11,8 @@ using OnlineGameStore.Models;
 
 namespace OnlineGameStore.Pages.Roles
 {
-	public class DetailsModel : PageModel
+    [Authorize(Roles = "Admin")]
+    public class DetailsModel : PageModel
 	{
 		private readonly RoleManager<ApplicationRole> _roleManager;
 		public DetailsModel(RoleManager<ApplicationRole> roleManager)

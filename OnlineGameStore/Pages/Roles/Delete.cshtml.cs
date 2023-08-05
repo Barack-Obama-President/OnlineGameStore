@@ -1,4 +1,6 @@
+using System.Data;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,7 +8,8 @@ using OnlineGameStore.Models;
 
 namespace OnlineGameStore.Pages.Roles
 {
-	public class DeleteModel : PageModel
+    [Authorize(Roles = "Admin")]
+    public class DeleteModel : PageModel
 	{
 		private readonly RoleManager<ApplicationRole> _roleManager;
 		public DeleteModel(RoleManager<ApplicationRole> roleManager)

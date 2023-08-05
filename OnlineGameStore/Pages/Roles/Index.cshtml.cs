@@ -4,9 +4,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using OnlineGameStore.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
+
 namespace OnlineGameStore.Pages.Roles
 {
-	public class IndexModel : PageModel
+    [Authorize(Roles = "Admin")]
+    public class IndexModel : PageModel
 	{
 		private readonly RoleManager<ApplicationRole> _roleManager;
 		public IndexModel(RoleManager<ApplicationRole> roleManager)
