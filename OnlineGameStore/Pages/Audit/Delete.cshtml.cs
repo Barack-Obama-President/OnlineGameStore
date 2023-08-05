@@ -58,7 +58,7 @@ namespace OnlineGameStore.Pages.Audit
                 if (await _context.SaveChangesAsync() > 0)
                 {
                     var auditrecord = new AuditRecord();
-                    auditrecord.AuditActionType = "Delete Movie Record";
+                    auditrecord.AuditActionType = "Delete Game Record";
                     auditrecord.DateTimeStamp = DateTime.Now;
                     auditrecord.KeyGameFieldID = Game.ID;
                     var userID = User.Identity.Name.ToString();
