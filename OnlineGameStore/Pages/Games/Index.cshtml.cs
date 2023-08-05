@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace OnlineGameStore.Pages.Games
 {
-	[Authorize(Roles = "Admin, Users")]
+	//[Authorize(Roles = "Admin, Users")]
 	public class IndexModel : PageModel
     {
         private readonly OnlineGameStore.Data.OnlineGameStoreContext _context;

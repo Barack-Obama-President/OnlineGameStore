@@ -11,7 +11,7 @@ using OnlineGameStore.Models;
 
 namespace OnlineGameStore.Pages.Games
 {
-    [Authorize(Roles = "Admin, Users")]
+    //[Authorize(Roles = "Admin, Users")]
     public class DetailsModel : PageModel
     {
         private readonly OnlineGameStore.Data.OnlineGameStoreContext _context;

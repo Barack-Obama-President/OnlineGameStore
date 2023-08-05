@@ -11,7 +11,7 @@ using OnlineGameStore.Models;
 
 namespace OnlineGameStore.Pages.Games
 {
-	[Authorize(Roles = "Admin")]
+	//[Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         private readonly OnlineGameStore.Data.OnlineGameStoreContext _context;
@@ -57,7 +57,7 @@ namespace OnlineGameStore.Pages.Games
 				if (await _context.SaveChangesAsync() > 0)
 				{
 					var auditrecord = new AuditRecord();
-					auditrecord.AuditActionType = "Delete Movie Record";
+					auditrecord.AuditActionType = "Delete Game Record";
 					auditrecord.DateTimeStamp = DateTime.Now;
 					auditrecord.KeyGameFieldID = Game.ID;
 					var userID = User.Identity.Name.ToString();

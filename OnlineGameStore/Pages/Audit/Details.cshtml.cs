@@ -12,7 +12,7 @@ using OnlineGameStore.Models;
 
 namespace OnlineGameStore.Pages.Audit
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
 
     public class DetailsModel : PageModel
     {

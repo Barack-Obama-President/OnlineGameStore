@@ -87,7 +87,16 @@ context,UserManager<ApplicationUser> userManager)
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+					var auditrecord = new AuditRecord();
+					auditrecord.AuditActionType = "Successful Login";
+					auditrecord.DateTimeStamp = DateTime.Now;
+					auditrecord.KeyGameFieldID = 999;
+
+					auditrecord.Username = Input.Email;
+					// save the email used for the failed login
+					_context.AuditRecords.Add(auditrecord);
+					await _context.SaveChangesAsync();
+					return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
