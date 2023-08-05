@@ -13,7 +13,7 @@ using OnlineGameStore.Models;
 
 namespace OnlineGameStore.Pages.Audit
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly OnlineGameStore.Data.OnlineGameStoreContext _context;

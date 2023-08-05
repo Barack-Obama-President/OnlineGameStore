@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 //testing commit
 namespace OnlineGameStore.Pages.Games
 {
-	//[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "Admin")]
 	public class CreateModel : PageModel
     {
         private readonly OnlineGameStore.Data.OnlineGameStoreContext _context;

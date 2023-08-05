@@ -11,7 +11,7 @@ using OnlineGameStore.Models;
 
 namespace OnlineGameStore.Pages.Games
 {
-	//[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         private readonly OnlineGameStore.Data.OnlineGameStoreContext _context;
