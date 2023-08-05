@@ -134,6 +134,15 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
 				if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+					var auditrecord = new AuditRecord();
+					auditrecord.AuditActionType = "Account registered";
+					auditrecord.DateTimeStamp = DateTime.Now;
+					auditrecord.KeyGameFieldID = 999;
+
+					auditrecord.Username = Input.Email;
+					// save the email used for registering
+
 					// await _userManager.AddToRoleAsync(user, "User");
 					IdentityResult roleResult = await _userManager.AddToRoleAsync(user, "Users");
 

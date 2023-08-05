@@ -105,7 +105,14 @@ context,UserManager<ApplicationUser> userManager)
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
+					var auditrecord = new AuditRecord();
+					auditrecord.AuditActionType = "Account locked";
+					auditrecord.DateTimeStamp = DateTime.Now;
+					auditrecord.KeyGameFieldID = 999;
+
+					auditrecord.Username = Input.Email;
+					// save the email used for the failed login
+					return RedirectToPage("./Lockout");
                 }
                 else
                 {

@@ -33,6 +33,7 @@ context)
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
+            var email = User.Identity.Name;
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
@@ -44,8 +45,9 @@ context)
 				auditrecord.AuditActionType = "User Logged Out";
 				auditrecord.DateTimeStamp = DateTime.Now;
 				auditrecord.KeyGameFieldID = 999;
+				auditrecord.Username = email;
 
-				
+
 				// save the email used for the failed login
 				_context.AuditRecords.Add(auditrecord);
 				await _context.SaveChangesAsync();
