@@ -21,13 +21,15 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+		private readonly OnlineGameStore.Data.OnlineGameStoreContext _context;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, 
-            ILogger<LoginModel> logger,
-            UserManager<ApplicationUser> userManager)
+		public LoginModel(SignInManager<ApplicationUser> signInManager, 
+            ILogger<LoginModel> logger, OnlineGameStore.Data.OnlineGameStoreContext
+context,UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
             _logger = logger;
         }
 
@@ -99,7 +101,19 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
+					// Login failed attempt
+					//-create an audit record
+					var auditrecord = new AuditRecord();
+					auditrecord.AuditActionType = "Failed Login";
+					auditrecord.DateTimeStamp = DateTime.Now;
+					auditrecord.KeyGameFieldID = 999;
+ 
+                    auditrecord.Username = Input.Email;
+					// save the email used for the failed login
+					_context.AuditRecords.Add(auditrecord);
+					await _context.SaveChangesAsync();
+
+					return Page();
                 }
             }
 

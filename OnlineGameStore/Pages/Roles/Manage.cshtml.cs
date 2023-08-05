@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using OnlineGameStore.Models;
 
 namespace OnlineGameStore.Pages.Roles
 {
@@ -62,7 +63,7 @@ namespace OnlineGameStore.Pages.Roles
 						select r;
 			Listroles = await roles.ToListAsync();
 		}
-		public async Task<IActionResult> OnPostAsync(string selectedusername, string selectedrolename)
+    public async Task<IActionResult> OnPostAsync(string selectedusername, string selectedrolename)
 		{
 			//When the Assign button is pressed
 			if ((selectedusername == null) || (selectedrolename == null))
@@ -80,22 +81,30 @@ namespace OnlineGameStore.Pages.Roles
 			}
 			return RedirectToPage("Manage");
 		}
-		public async Task<IActionResult> OnPostDeleteUserRoleAsync(string delusername, string
-	   delrolename)
+		public async Task<IActionResult> OnPostDeleteUserRoleAsync(string delusername, string delrolename)
 		{
 			//When the Delete this user from Role button is pressed
 			if ((delusername == null) || (delrolename == null))
 			{
 				return RedirectToPage("Manage");
 			}
-			ApplicationUser user = _context.Users.Where(u => u.UserName == delusername).FirstOrDefault();
-			if (await _userManager.IsInRoleAsync(user, delrolename))
+			//ApplicationUser user = _context.Users.Where(u => u.UserName == delusername).FirstOrDefault();
+			ApplicationUser AppUser = _context.Users.SingleOrDefault(u => u.UserName == delusername);
+			ApplicationRole AppRole = await _roleManager.FindByNameAsync(delrolename);
+			IdentityResult roleResult = await _userManager.RemoveFromRoleAsync(AppUser, AppRole.Name);
+			if (roleResult.Succeeded)
 			{
-				await _userManager.RemoveFromRoleAsync(user, delrolename);
-				TempData["message"] = "Role removed from this user successfully";
+				TempData["message"] = "User removed from this role successfully";
+				
 			}
 			return RedirectToPage("Manage");
+
+			//if (await _userManager.IsInRoleAsync(user, delrolename))
+			//{
+			//	await _userManager.RemoveFromRoleAsync(user, delrolename);
+			//	TempData["message"] = "Role removed from this user successfully";
+			//}
+			//return RedirectToPage("Manage");
 		}
 	}
 }
-
