@@ -7,8 +7,6 @@ using OnlineGameStore.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using OnlineGameStore.Models;
 
 namespace OnlineGameStore.Pages.Roles
 {
@@ -23,11 +21,14 @@ namespace OnlineGameStore.Pages.Roles
 			_context = context;
 			_userManager = userManager;
 			_roleManager = roleManager;
-		}
+            RolesSelectList = new SelectList(_roleManager.Roles, "Name", "Name");
+            UsersSelectList = new SelectList(_context.Users, "UserName", "UserName");
+        }
 		public SelectList RolesSelectList;
 		//contain a list of roles to populate select box
 		public SelectList UsersSelectList;
 		// contain a list of Users to populate select box
+
 		public string selectedrolename { set; get; }
 		public string selectedusername { set; get; }
 		public string delrolename { set; get; }
