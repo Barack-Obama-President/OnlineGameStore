@@ -39,7 +39,18 @@ namespace OnlineGameStore
                  .AddEntityFrameworkStores<OnlineGameStoreContext>()
                  .AddDefaultTokenProviders();
 
-            services.AddMvc()
+			services.AddAuthentication()
+		    .AddGoogle(options =>
+		    {
+			    IConfigurationSection googleAuthNSection =
+				    Configuration.GetSection("Authentication:Google");
+
+			    options.ClientId = googleAuthNSection["ClientId"];
+			    options.ClientSecret = googleAuthNSection["ClientSecret"];
+		    });
+
+
+			services.AddMvc()
              .AddRazorPagesOptions(options =>
              {
                  // options.Conventions.AllowAnonymousToFolder("/Games");
@@ -65,6 +76,7 @@ namespace OnlineGameStore
                 options.User.RequireUniqueEmail = true;
             });
 
+
             services.ConfigureApplicationCookie(options =>
             {
                 // options.Cookie.Name = "YourCookieName";
@@ -76,6 +88,13 @@ namespace OnlineGameStore
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromSeconds(500);
                 options.SlidingExpiration = true;
+            });
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "ShoppingCartSession";
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
 
         }
@@ -99,8 +118,10 @@ namespace OnlineGameStore
 
             app.UseRouting();
             app.UseAuthentication();
-         
             app.UseAuthorization();
+
+            // UseSession middleware should come before UseEndpoints
+            app.UseSession(); // Add this line
 
             app.UseEndpoints(endpoints =>
             {

@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Games</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -51,14 +51,53 @@
                 @Html.DisplayFor(modelItem => item.Genre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                $@Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                <form method="post" asp-page-handler="AddToCart" asp-route-id="@item.ID">
+                    <button type="submit">Add to Cart</button>
+                </form>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<h2>Shopping Cart</h2>
+@if (Model.ShoppingCart.Count() > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Quantity</th> <!-- Add a new table header for quantity -->
+                <th>Total Price</th> <!-- Add a new table header for total price -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ShoppingCart)
+            {
+                <tr>
+                    <td>@item.Value.Title</td> <!-- Access the Title property from the value of the dictionary entry -->
+                    <td>@item.Value.Price</td> <!-- Access the Price property from the value of the dictionary entry -->
+                    <td>@item.Value.Quantity</td> <!-- Access the Quantity property from the value of the dictionary entry -->
+                    <td>$@(item.Value.Price * item.Value.Quantity)</td> <!-- Calculate the total price for the item -->
+                    <td>
+                        <form method="post" asp-page-handler="RemoveFromCart" asp-route-id="@item.Key">
+                            <button type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>Total price: $@Model.TotalPrice</p>
+}
+else
+{
+    <p>Your shopping cart is empty.</p>
+}

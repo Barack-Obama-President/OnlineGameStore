@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineGameStore.Data;
 using OnlineGameStore.Models;
 using Microsoft.AspNetCore.Authorization;
-
+//testing commit
 namespace OnlineGameStore.Pages.Games
 {
 	[Authorize(Roles = "Admin")]
@@ -23,17 +23,7 @@ namespace OnlineGameStore.Pages.Games
 
         public IActionResult OnGet()
         {
-            //Movie = new Movie
-            //{
-            // Title = "The Good, the bad, and the ugly",
-            // Genre = "Western",
-            // Price = 1.19M,
-            // ReleaseDate = DateTime.Now
-
-            // };
-            //throw new Exception("Test Error");
             return Page();
-
         }
 
         [BindProperty]

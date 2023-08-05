@@ -52,6 +52,11 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            [Display(Name = "Account name")]
+            [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Invalid account name. Only letters, numbers, and underscores are allowed.")]
+            public string FullName { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -102,7 +107,8 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        FullName = info.Principal.FindFirstValue(ClaimTypes.Name)
                     };
                 }
                 return Page();
@@ -122,7 +128,7 @@ namespace OnlineGameStore.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FullName = Input.FullName };
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)

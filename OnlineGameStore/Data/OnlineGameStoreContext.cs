@@ -26,6 +26,5 @@ namespace OnlineGameStore.Data
 
         public DbSet<OnlineGameStore.Models.Game> Game { get; set; }
         public DbSet<OnlineGameStore.Models.AuditRecord> AuditRecords { get; set; }
-        public DbSet<OnlineGameStore.Models.Customer> Customers { get; set; }
     }
 }
