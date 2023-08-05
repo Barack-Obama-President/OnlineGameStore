@@ -50,13 +50,13 @@ namespace OnlineGameStore.Pages.Audit
 
             AuditRecord = await _context.AuditRecords.FindAsync(id);
 
-            if (AuditRecord != null)
-            {
-                _context.AuditRecords.Remove(AuditRecord);
-                await _context.SaveChangesAsync();
-            }
+			if (AuditRecord != null)
+			{
+				_context.AuditRecords.Remove(AuditRecord);
+				await _context.SaveChangesAsync();
+			}
 
-            return RedirectToPage("./Index");
-        }
-    }
+			return RedirectToPage("./Index");
+		}
+	}
 }

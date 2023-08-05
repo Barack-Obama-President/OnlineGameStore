@@ -30,19 +30,16 @@ namespace OnlineGameStore.Pages.Audit
         [BindProperty]
         public AuditRecord AuditRecord { get; set; }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            _context.AuditRecords.Add(AuditRecord);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
-        }
-    }
+		// To protect from overposting attacks, enable the specific properties you want to bind to, for
+		// more details, see https://aka.ms/RazorPagesCRUD.
+		public async Task<IActionResult> OnPostAsync()
+		{
+			if (!ModelState.IsValid)
+			{
+				return Page();
+			}
+			
+			return RedirectToPage("./Index");
+		}
+	}
 }
